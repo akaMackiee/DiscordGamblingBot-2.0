@@ -37,12 +37,6 @@ namespace DiscordGamblingBot.Modules
             embed.WithThumbnailUrl(Context.User.GetAvatarUrl());
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
-
-        [Command("secret")]
-        public async Task RevealSecret([Remainder]string arg = "")
-        {
-            await Context.User.SendMessageAsync(Utilities.GetAlert("SECRET"));
-        }
         
         [Command("purge")]
         [Alias("clear")]
@@ -110,6 +104,7 @@ namespace DiscordGamblingBot.Modules
         }
 
         [Command("coinflip")]
+        [Alias("cf")]
         public async Task coinflip([Remainder]string side)
         {
             if (string.Equals(side, "heads", StringComparison.CurrentCultureIgnoreCase)
@@ -120,19 +115,33 @@ namespace DiscordGamblingBot.Modules
                 {
                     await Context.Channel.SendMessageAsync("You won!");
                 }
-                else if(score == 2)
-                {
-                    await Context.Channel.SendMessageAsync("You lost!");
-                }
                 else
                 {
-                    await Context.Channel.SendMessageAsync("It's a Draw!");
+                    await Context.Channel.SendMessageAsync("You lost!");
                 }
             }
             else
             {
                 await Context.Channel.SendMessageAsync(side + " is not a valid option");
             }
+        }
+
+        [Command("avatar")]
+        public async Task GetAvatar(SocketUser MentionedUser = null)
+        {
+            var embed = new EmbedBuilder();
+            if (MentionedUser == null) MentionedUser = Context.User;
+
+            embed.WithImageUrl(MentionedUser.GetAvatarUrl());
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+        }
+
+        [Command("blackjack")]
+        [Alias("bj")]
+        public async Task initializeBlackJack()
+        {
+            var blackjack = new BlackJack();
+            blackjack.HandCards();
         }
     }
 }
