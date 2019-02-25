@@ -18,19 +18,19 @@ namespace DiscordGamblingBot
 
         static Config()
         {
-            if(!Directory.Exists(configFolder))
+            if(!Directory.Exists("bin/Debug/" + configFolder))
             {
-                Directory.CreateDirectory(configFolder);
+                Directory.CreateDirectory("bin/Debug/" + configFolder);
             }
-            if(!File.Exists(configFolder + "/" + configFile))
+            if(!File.Exists("bin/Debug/" + configFolder + "/" + configFile))
             {
                 bot = new BotConfig();
                 string json = JsonConvert.SerializeObject(bot, Formatting.Indented);
-                File.WriteAllText(configFolder + "/" + configFile, json);
+                File.WriteAllText("bin/Debug/" + configFolder + "/" + configFile, json);
             }
             else
             {
-                string json = File.ReadAllText(configFolder + "/" + configFile);
+                string json = File.ReadAllText("bin/Debug/" + configFolder + "/" + configFile);
                 bot = JsonConvert.DeserializeObject<BotConfig>(json);
             }
         }

@@ -130,9 +130,14 @@ namespace DiscordGamblingBot.Modules
         public async Task GetAvatar(SocketUser MentionedUser = null)
         {
             var embed = new EmbedBuilder();
-            if (MentionedUser == null) MentionedUser = Context.User;
-
+            if(MentionedUser == null) MentionedUser = Context.User;
+            
+            embed.WithTitle(MentionedUser.Username + "'s Avatar is:");
             embed.WithImageUrl(MentionedUser.GetAvatarUrl());
+            if(MentionedUser.GetAvatarUrl() == null)
+            {
+                embed.WithImageUrl(MentionedUser.GetDefaultAvatarUrl());
+            }
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
